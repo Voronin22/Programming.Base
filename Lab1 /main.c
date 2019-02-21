@@ -1,14 +1,14 @@
-#include<iostream>
 #include <stdio.h>
-#define B 1000
-using namespace std;
 
 int main(void)
 {
-	int t, v;
+	float t, v;
+	printf("write the Volume:");
+	scanf_s("%f",&B);
+	printf("write the time:");
 	scanf_s("%d", &t);
-	v = (int)(B / t);
-	printf("%d", v);
-	getchar();
-	return 1;
+	v = (B / t);
+	printf("speed is:%d", v);
+	system("pause");
+	return 0;
 }
