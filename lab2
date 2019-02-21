@@ -1,0 +1,18 @@
+#include <stdio.h>
+main()
+{
+	int N, k;
+	float S;
+	float T;
+	printf("write quantity N:");
+	N = getchar();
+	S = 0.0;
+	for (k = 1; k <= N; k++)
+	{
+		T = k / ((k + 1.0)*(k + 1.0));
+		S = S + T;
+	}
+	printf("summ is:%f\n", S);
+	system("pause");
+	return 0;
+}
