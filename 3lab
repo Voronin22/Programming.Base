@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+ main()
+{
+  int word, chars, F,c;
+  float SN;
+  chars=word=0;
+  F=0;
+  while((c=getchar())!='-')
+  {
+  	if(c==' '|| c=='.'||c==','||c=='\t'||c=='\n')
+  		F=0;
+	    else 
+	    {
+	    	if(F==0){;
+	    	word++;
+	    	F=1;
+	               }
+		    if (F==1)
+			chars++;
+		}
+	}
+	SN=chars/word;
+	printf("generaly quantity of word is: %f\n", SN);
+	system("pause");
+	return 0;	
+}
