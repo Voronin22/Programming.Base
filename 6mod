@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<malloc.h>
 #include<stdlib.h>
-
+#include <string.h>
 main()
 {
 	int F,j,i;
@@ -10,27 +10,32 @@ main()
 	printf("write razm N and K:\n");
 	scanf("%d %d",&N,&K);
 	F=0;
-	S = (float*)malloc(N*K*sizeof(float));
+	S = (float*)malloc(N*K* sizeof(float));
 	for(i=0;i<N;i++)
 	{
 		for(j=0;j < K;j++)
-			scanf("%f",S*[i][j]); 
+			scanf("%f",(S+i*K+j)); 
 	}
-		for(i=0;i<N;i++)
+	for(i=0;i<N;i++)
 	{
 		for(j=0;j<K-2;j++)
 		{
-			if(S*[i][j+1] / S*[i][j] != S*[i][j+2]/ S*[i][j+1])
-			F=1;
+			float tmp1, tmp2, tmp3;
+			int ind1 = (i-1)*K*sizeof(float) + j;
+
+			memcpy(&tmp1, S+ind1, sizeof(float));
+
+			if ( &(S[i][j+1]) / S[i][j] != S[i][j+2]/ S[i][j+1])
+				F=1;
 			break;
 		}
 		if (F==0)
-		printf("%d - yes\n",i);
+			printf("%d - yes\n",i);
 		else if(F==1)
-		printf("%d - no\n");
-	F=0;	
+			printf("%d - no\n");
+		F=0;	
 	}
-		free(S);
+	free(S);
 	getchar();
 	return 0;
 }
