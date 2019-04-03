@@ -1,13 +1,16 @@
 #include<stdio.h>
+#include<time.h>
+#include<stdlib.h>
 #define MAX 10
 main()
 {
 	float Sp,So;
-	float m[MAX];
+	int m[MAX];
 	int i;
 	Sp=So=0;
+	srand(time(NULL));
 	for(i=0;i<MAX;i++)//в массиве из 10 целых чисел обнулить все отрицательные элементы, если их сумма меньше суммы положительных элементов
-		scanf("%f",&m[i]);
+		m[i]=(rand()%10)-5;
 	printf("\n");
 	for(i=0;i<MAX;i++)
 	{
@@ -22,13 +25,13 @@ main()
 		{
 			if (m[i]<0)
 			m[i]=0;    
-			printf("%f\n",m[i]);
+			printf("%d\n",m[i]);
 		}
 	}
 	else
 	{
 		for(i=0;i<MAX;i++)//вывод массива без обнуления
-		printf("%f\n",m[i]);
+		printf("%d\n",m[i]);
 	}
 	getchar();
 	return 0;
