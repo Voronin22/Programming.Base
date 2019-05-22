@@ -1,18 +1,23 @@
 #include <stdio.h>
+#include<stdlib.h>
+#include<time.h>
+void rand100date(void);//wtie 100 random dates in data1.txt 
 int what_day(int,int ,int);
+void whsp(void); //when is spring? write all spring dates
 char latedate(char []);//late date
 int datest(char [], int , int);// test then string is date
 int m,day,y;
-char sprd[100];//spring date
 
 main()
 {
 	FILE *f;
 	FILE *fin;
+	char sprd[1000];//spring date
 	int l,min=9999,i,ld=0,lm=0,ly=0,W;
 	char sod[9];//string of date
 	char latd[9];//last date
 	printf("wtite the dates in file 'data1.txt 'like this: day.month.year -without spase and through Enter.\n max date 31 12 9999\n After filling file.txt Press 'Enter'");
+	rand100date();
 	getchar();
 	printf("Now check data2.txt");
 	f = fopen("data1.txt", "rt");
@@ -22,24 +27,19 @@ main()
 		if (datest(sod,0,10)==1)
 		{
 		min=(y < min) ? y : min;
-		if(m>=3 && m<=5)
-			{
-				for (sprd[l-1]='\n', i=0; i < 10; sprd[l]=sod[i],i++,l++);
-				l++;
-			}
-		if(y > ly)
+		if(y > ly && y<10000 && m<13 && day<32)
 			{
 				ld=day;
 				lm=m;
 				ly=y;
 			}
-			else if(y == ly && lm < m)
+			else if(y == ly && lm < m && y<10000 && m<13 && day<32)
 				{
 					ld=day;
 					lm=m;
 					ly=y;
 				}
-				else if(lm == m && ld<day)
+				else if(lm == m && ld<day && y<10000 && m<13 && day<32)
 				{
 					ld=day;
 					lm=m;
@@ -47,7 +47,7 @@ main()
 				}
 			switch(what_day(day,m,y))
 			{
-				case 1 : fprintf(fin,"\n %d.%d.%d-monday\n",day,m,y);break; 
+				case 1 : fprintf(fin,"\n %d.%d.%d-monday\n",day,m,y);break;
 				case 2 : fprintf(fin,"\n %d.%d.%d-Tuesday\n",day,m,y);break;
 				case 3 : fprintf(fin,"\n %d.%d.%d-Wednesday\n",day,m,y);break;
 				case 4 : fprintf(fin,"\n %d.%d.%d-Thursday\n",day,m,y);break;
@@ -56,24 +56,24 @@ main()
 				case 0 : fprintf(fin,"\n %d.%d.%d-Sunday\n",day,m,y);break;
 			}
 		}
-		else if(datest(sod,0,10)==0) 
+		else if(datest(sod,0,10)==0)
 			printf("\n%d.%d.%d-incrorrect date\n",day,m,y);
 	}
-	fprintf(fin,"\n minyear=%d\n all spring dates:\n %s\n",min,sprd);
-	fprintf (fin,"the lates date:\n %d.%d.%d",ld, lm, ly);
+	fprintf (fin,"minyear :\n%d \nThe lates date:\n %d.%d.%d",min,ld, lm, ly);
 	fclose(f);
 	fclose(fin);
+	whsp();
 	return 0;
 }
 int datest(char d[], int begin, int end)
 {
-	int F=0;
+	int i,F=0;
 	day = (d[begin]-'0') * 10 + (d[begin+1]-'0');
 	m = (d[begin+3]-'0') * 10 + (d[begin+4]-'0');
 	y = (d[end-1]-'0') + (d[end-2]-'0') * 10 + (d[end-3]-'0') * 100 + (d[end-4]-'0')*1000;
-	F = (day >= 1 && day <= 31 && (m==1 || m==3 || m==5 || m==7 || m==8 || m==10 || m==12)) ? 1 : F;
-	F = (day >=1 && day <= 30 && (m==4 || m==6 || m==9 || m==11)) ? 1 : F;
-	F = ((day >= 1 && day <= 29 && y%4==0 && m==2) ||(day >= 1 && day <= 28 && y%4!=0 && m==2)) ? 1 : F;
+	F = (day >= 1 && day <= 31 && (m==1 || m==3 || m==5 || m==7 || m==8 || m==10 || m==12)&&y<10000) ? 1 : F;
+	F = (day >=1 && day <= 30 && (m==4 || m==6 || m==9 || m==11)&&y<10000) ? 1 : F;
+	F = ((day >= 1 && day <= 29 && y%4==0 && m==2) ||(day >= 1 && day <= 28 && y%4!=0 && m==2)&&y<10000) ? 1 : F;
 	return F;
 }
 int what_day(int da,int month,int year)
@@ -84,3 +84,49 @@ int what_day(int da,int month,int year)
      month = month + 12 * a - 2;
     return (da + year + year / 4 - year / 100 + year / 400 + (31 * month) / 12) % 7;
 }
+void rand100date(void)
+{
+	FILE *f;
+	int i;
+	srand(time(NULL));
+	f = fopen("data1.txt", "w+");
+	for(i=0;i<100;i++)
+	{
+		day=rand()%31+1;
+		y=rand()%9999+1;
+		m=rand()%12+1;
+		if(day<10)
+			fprintf(f,"0%d.",day);
+		else fprintf(f,"%d.",day);
+		if(m<10)
+			fprintf(f,"0%d.",m);
+		else fprintf(f,"%d.",m);
+		if(y>999)
+			fprintf(f,"%d\n",y);
+		else if(y>99 && y<1000)
+			fprintf(f,"0%d\n",y);
+		else if(y>9 && y<100)
+			fprintf(f,"00%d\n",y);
+		else if(y<10 && y>-1)
+			fprintf(f,"000%d\n",y);
+	}
+	fclose(f);
+}
+void whsp(void)
+{
+	FILE *f=fopen("data1.txt","rt");
+	FILE *fin=fopen("data2.txt","a");
+	char d[10];
+	fprintf(fin,"\nAll spring dates:\n");
+	while (fscanf(f,"%s",d)!=EOF)
+	{
+		if(datest(d,0,10)==1)
+		{
+			if(m>=3 && m<=5)
+				fprintf(fin,"%s\n",d);
+		}
+	}
+	fclose(f);
+	fclose(fin);
+}
+
